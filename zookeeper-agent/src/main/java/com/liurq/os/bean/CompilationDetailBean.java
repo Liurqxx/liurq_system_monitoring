@@ -19,4 +19,19 @@ public class CompilationDetailBean {
      * 总编译时间
      */
     private String totalCompilationTime;
+
+    /**
+     * 已加载类总数
+     */
+    private Integer totalLoadedClassCount;
+
+    /**
+     * 当前类加载数量
+     */
+    private Integer loadedClassCount;
+
+    /**
+     * 卸载类数量
+     */
+    private Integer unloadedClassCount;
 }
