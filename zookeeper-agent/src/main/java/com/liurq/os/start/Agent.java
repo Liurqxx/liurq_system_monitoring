@@ -1,9 +1,15 @@
 package com.liurq.os.start;
 
+import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liurq.os.bean.OsBean;
+import com.liurq.os.bean.SystemDetailBean;
+import com.liurq.os.utils.SystemDetailUtils;
 import org.I0Itec.zkclient.ZkClient;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
 import java.lang.instrument.Instrumentation;
 import java.lang.management.ManagementFactory;
@@ -11,7 +17,8 @@ import java.lang.management.MemoryUsage;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class Agent {
+@Component
+public class Agent implements ApplicationRunner {
     private static Agent ourInstance = new Agent();
     private String server = "101.42.108.28:12181";
     private ZkClient zkClient;
@@ -101,5 +108,22 @@ public class Agent {
         if (!zkClient.exists(rootPath)) {
             zkClient.createPersistent(rootPath);
         }
+    }
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+
+        zkClient = new ZkClient(server, 5000, 10000);
+//        zkClient.setZkSerializer(new SerializableSerializer());
+        System.out.println("zk连接成功" + server);
+        // 创建根节点
+        buildRoot();
+        // 创建临时节点
+        createServerNode();
+
+        SystemDetailBean systemInfo = SystemDetailUtils.getSystemInfo();
+        System.out.println(systemInfo.toString());
+        zkClient.writeData(nodePath, JSONUtil.toJsonStr(systemInfo));
+
     }
 }
