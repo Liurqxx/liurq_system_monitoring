@@ -23,7 +23,7 @@ public class CompilationDetailBean {
     /**
      * 已加载类总数
      */
-    private Integer totalLoadedClassCount;
+    private Long totalLoadedClassCount;
 
     /**
      * 当前类加载数量
@@ -33,5 +33,5 @@ public class CompilationDetailBean {
     /**
      * 卸载类数量
      */
-    private Integer unloadedClassCount;
+    private Long unloadedClassCount;
 }
