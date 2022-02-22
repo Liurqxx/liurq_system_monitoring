@@ -3,9 +3,10 @@ package com.liurq.os.start;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liurq.os.bean.AgentBean;
 import com.liurq.os.bean.OsBean;
 import com.liurq.os.bean.SystemDetailBean;
-import com.liurq.os.utils.SystemDetailUtils;
+import com.liurq.os.utils.*;
 import org.I0Itec.zkclient.ZkClient;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -76,7 +77,7 @@ public class Agent implements ApplicationRunner {
 
     // 更新服务节点状态
     public String getOsInfo() {
-        OsBean bean = new OsBean();
+/*        OsBean bean = new OsBean();
         bean.lastUpdateTime = System.currentTimeMillis();
         bean.ip = getLocalIp();
 //        bean.cpu = CPUMonitorCalc.getInstance().getProcessCpu();
@@ -91,7 +92,21 @@ public class Agent implements ApplicationRunner {
             return s;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
-        }
+        }*/
+        MemoryUsage memoryUsag = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
+        AgentBean agentBean = new AgentBean();
+        agentBean.setIp(getLocalIp());
+        agentBean.setCpu(CPUMonitorCalcUtils.getInstance().getProcessCpu());
+        agentBean.setUsedMemorySize(memoryUsag.getUsed() / 1024 / 1024);
+        agentBean.setUsableMemorySize(memoryUsag.getMax() / 1024 / 1024);
+        agentBean.setPid(ManagementFactory.getRuntimeMXBean().getName());
+        agentBean.setCompilationDetailBean(CompilationDetailUtils.getCompilationDetail());
+        agentBean.setGarbageCollectorInfoBean(GarbageCollectorInfoUtils.getGarbageCollectorInfo());
+        agentBean.setJvmMemoryInfoBean(JvmMemoryInfoUtils.getJvmMemoryInfo());
+        agentBean.setRuntimeDetailBean(RuntimeDetailUtils.getRuntimeDetail());
+        agentBean.setThreadInfoBean(ThreadInfoUtils.getThreadInfo());
+        agentBean.setSystemDetailBean(SystemDetailUtils.getSystemInfo());
+        return JSONUtil.toJsonStr(agentBean);
     }
 
     public static String getLocalIp() {
@@ -113,17 +128,20 @@ public class Agent implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        zkClient = new ZkClient(server, 5000, 10000);
-//        zkClient.setZkSerializer(new SerializableSerializer());
-        System.out.println("zk连接成功" + server);
-        // 创建根节点
-        buildRoot();
-        // 创建临时节点
-        createServerNode();
+//        zkClient = new ZkClient(server, 5000, 10000);
+////        zkClient.setZkSerializer(new SerializableSerializer());
+//        System.out.println("zk连接成功" + server);
+//        // 创建根节点
+//        buildRoot();
+//        // 创建临时节点
+//        createServerNode();
+//
+//        SystemDetailBean systemInfo = SystemDetailUtils.getSystemInfo();
+//        System.out.println(systemInfo.toString());
+//        zkClient.writeData(nodePath, JSONUtil.toJsonStr(systemInfo));
 
-        SystemDetailBean systemInfo = SystemDetailUtils.getSystemInfo();
-        System.out.println(systemInfo.toString());
-        zkClient.writeData(nodePath, JSONUtil.toJsonStr(systemInfo));
-
+//        String osInfo = this.getOsInfo();
+//        System.out.println(osInfo);
+        this.init();
     }
 }
