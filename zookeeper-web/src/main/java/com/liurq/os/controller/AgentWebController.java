@@ -81,7 +81,7 @@ public class AgentWebController implements InitializingBean {
 
         @Override
         public void handleDataChange(String dataPath, Object data) throws Exception {
-            AgentBean bean = JSONUtil.toBean((JSONObject) data, AgentBean.class);
+            AgentBean bean = JSONUtil.toBean(new String(data.toString()), AgentBean.class);
             map.put(dataPath, bean);
             doFilter(bean);
         }

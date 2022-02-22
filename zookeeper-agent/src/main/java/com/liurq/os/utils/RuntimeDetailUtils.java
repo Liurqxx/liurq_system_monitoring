@@ -52,11 +52,11 @@ public class RuntimeDetailUtils {
             runtimeDetailBean.setVmArgs(String.join(",", args));
         }
 //        System.out.println("类路径:" + runtime.getClassPath());
-        runtimeDetailBean.setClassPath(runtime.getClassPath());
+//        runtimeDetailBean.setClassPath(runtime.getClassPath());
 //        System.out.println("引导类路径:" + runtime.getBootClassPath());
-        runtimeDetailBean.setBootClassPath(runtime.getBootClassPath());
+//        runtimeDetailBean.setBootClassPath(runtime.getBootClassPath());
 //        System.out.println("库路径:" + runtime.getLibraryPath());
-        runtimeDetailBean.setLibraryPath(runtime.getLibraryPath());
+//        runtimeDetailBean.setLibraryPath(runtime.getLibraryPath());
 
         return runtimeDetailBean;
     }

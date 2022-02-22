@@ -60,16 +60,16 @@ public class RuntimeDetailBean {
     /**
      * 类路径
      */
-    private String classPath;
+//    private String classPath;
 
     /**
      * 引导类路径
      */
-    private String bootClassPath;
+//    private String bootClassPath;
 
     /**
      * 库路径
      */
-    private String libraryPath;
+//    private String libraryPath;
 
 }
