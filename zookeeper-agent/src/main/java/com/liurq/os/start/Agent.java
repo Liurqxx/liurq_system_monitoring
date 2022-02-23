@@ -1,23 +1,17 @@
 package com.liurq.os.start;
 
 import cn.hutool.json.JSONUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liurq.os.bean.AgentBean;
-import com.liurq.os.bean.OsBean;
-import com.liurq.os.bean.SystemDetailBean;
 import com.liurq.os.utils.*;
+import lombok.extern.slf4j.Slf4j;
 import org.I0Itec.zkclient.ZkClient;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.lang.instrument.Instrumentation;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryUsage;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
+@Slf4j
 @Component
 public class Agent implements ApplicationRunner {
     private static Agent ourInstance = new Agent();
@@ -44,7 +38,7 @@ public class Agent implements ApplicationRunner {
     public void init() {
         zkClient = new ZkClient(server, 5000, 10000);
 //        zkClient.setZkSerializer(new SerializableSerializer());
-        System.out.println("zk连接成功" + server);
+        log.info("zk客户端连接成功-{}", server);
         // 创建根节点
         buildRoot();
         // 创建临时节点
@@ -72,28 +66,11 @@ public class Agent implements ApplicationRunner {
     // 生成服务节点
     public void createServerNode() {
         nodePath = zkClient.createEphemeralSequential(servicePath, getOsInfo());
-        System.out.println("创建节点:" + nodePath);
+        log.info("创建节点成功-{}", nodePath);
     }
 
     // 更新服务节点状态
     public String getOsInfo() {
-/*        OsBean bean = new OsBean();
-        bean.lastUpdateTime = System.currentTimeMillis();
-        bean.ip = getLocalIp();
-//        bean.cpu = CPUMonitorCalc.getInstance().getProcessCpu();
-        MemoryUsage memoryUsag = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
-        bean.usedMemorySize = memoryUsag.getUsed() / 1024 / 1024;
-        bean.usableMemorySize = memoryUsag.getMax() / 1024 / 1024;
-        bean.pid = ManagementFactory.getRuntimeMXBean().getName();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            String s = mapper.writeValueAsString(bean);
-            System.out.println(s);
-            return s;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }*/
-//        MemoryUsage memoryUsag = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
         AgentBean agentBean = new AgentBean();
         agentBean.setCompilationDetail(CompilationDetailUtils.getCompilationDetail());
         agentBean.setGarbageCollectorInfo(GarbageCollectorInfoUtils.getGarbageCollectorInfo());
@@ -113,20 +90,6 @@ public class Agent implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-//        zkClient = new ZkClient(server, 5000, 10000);
-////        zkClient.setZkSerializer(new SerializableSerializer());
-//        System.out.println("zk连接成功" + server);
-//        // 创建根节点
-//        buildRoot();
-//        // 创建临时节点
-//        createServerNode();
-//
-//        SystemDetailBean systemInfo = SystemDetailUtils.getSystemInfo();
-//        System.out.println(systemInfo.toString());
-//        zkClient.writeData(nodePath, JSONUtil.toJsonStr(systemInfo));
-
-//        String osInfo = this.getOsInfo();
-//        System.out.println(osInfo);
         this.init();
     }
 }

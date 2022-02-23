@@ -57,19 +57,4 @@ public class RuntimeDetailBean {
      */
     private String vmArgs;
 
-    /**
-     * 类路径
-     */
-//    private String classPath;
-
-    /**
-     * 引导类路径
-     */
-//    private String bootClassPath;
-
-    /**
-     * 库路径
-     */
-//    private String libraryPath;
-
 }
