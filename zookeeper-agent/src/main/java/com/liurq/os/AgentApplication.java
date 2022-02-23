@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Author liurq
  * @Date 2020/12/14 17:51
  */
-//@SpringBootApplication(scanBasePackages = {"cn.hywy.**"}, exclude = {DataSourceAutoConfiguration.class, ExceptionAutoConfiguration.class, ValidatorAutoConfiguration.class})
 @SpringBootApplication
 public class AgentApplication {
 

@@ -61,4 +61,17 @@ public class SystemDetailBean {
      */
     private String freeSwapSpace;
 
+    /**
+     * ip地址
+     */
+    public String ip;
+    /**
+     * cpu
+     */
+    public Double cpu;
+    /**
+     * pid
+     */
+    public String pid;
+
 }

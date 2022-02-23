@@ -6,6 +6,8 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * @author liurq
@@ -15,16 +17,12 @@ import java.lang.reflect.Method;
 public class SystemDetailUtils {
 
     private static final long MB = 1024 * 1024;
-    private static OperatingSystemMXBean system = ManagementFactory.getOperatingSystemMXBean();
-
-    public static OperatingSystemMXBean getInstance() {
-        return system;
-    }
 
     public static SystemDetailBean getSystemInfo() {
 
         SystemDetailBean systemDetailBean = new SystemDetailBean();
 
+        OperatingSystemMXBean system = ManagementFactory.getOperatingSystemMXBean();
         //相当于System.getProperty("os.name")
 //        System.out.println("系统名称:" + system.getName());
         systemDetailBean.setSystemName(system.getName());
@@ -37,6 +35,9 @@ public class SystemDetailUtils {
         //相当于 Runtime.availableProcessors()
 //        System.out.println("可用的内核数:" + system.getAvailableProcessors());
         systemDetailBean.setAvailableProcessors(system.getAvailableProcessors() + "");
+        systemDetailBean.setIp(getLocalIp());
+        systemDetailBean.setCpu(CPUMonitorCalcUtils.getInstance().getProcessCpu());
+        systemDetailBean.setPid(ManagementFactory.getRuntimeMXBean().getName());
         if (isSunOsMBean(system)) {
             long totalPhysicalMemory = getLongFromOperatingSystem(system, "getTotalPhysicalMemorySize");
             long freePhysicalMemory = getLongFromOperatingSystem(system, "getFreePhysicalMemorySize");
@@ -64,6 +65,16 @@ public class SystemDetailUtils {
         }
 
         return systemDetailBean;
+    }
+
+    private static String getLocalIp() {
+        InetAddress addr = null;
+        try {
+            addr = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+        return addr.getHostAddress();
     }
 
     private static boolean isSunOsMBean(OperatingSystemMXBean operatingSystem) {

@@ -95,11 +95,6 @@ public class Agent implements ApplicationRunner {
         }*/
         MemoryUsage memoryUsag = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
         AgentBean agentBean = new AgentBean();
-        agentBean.setIp(getLocalIp());
-        agentBean.setCpu(CPUMonitorCalcUtils.getInstance().getProcessCpu());
-        agentBean.setUsedMemorySize(memoryUsag.getUsed() / 1024 / 1024);
-        agentBean.setUsableMemorySize(memoryUsag.getMax() / 1024 / 1024);
-        agentBean.setPid(ManagementFactory.getRuntimeMXBean().getName());
         agentBean.setCompilationDetailBean(CompilationDetailUtils.getCompilationDetail());
         agentBean.setGarbageCollectorInfoBean(GarbageCollectorInfoUtils.getGarbageCollectorInfo());
         agentBean.setJvmMemoryInfoBean(JvmMemoryInfoUtils.getJvmMemoryInfo());
@@ -107,16 +102,6 @@ public class Agent implements ApplicationRunner {
         agentBean.setThreadInfoBean(ThreadInfoUtils.getThreadInfo());
         agentBean.setSystemDetailBean(SystemDetailUtils.getSystemInfo());
         return JSONUtil.toJsonStr(agentBean);
-    }
-
-    public static String getLocalIp() {
-        InetAddress addr = null;
-        try {
-            addr = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        }
-        return addr.getHostAddress();
     }
 
     public void buildRoot() {
