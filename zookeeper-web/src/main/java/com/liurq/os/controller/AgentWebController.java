@@ -51,10 +51,11 @@ public class AgentWebController implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         zkClient = new ZkClient(server, 5000, 90000);
         initSubscribeListener();
-
     }
 
-    // 初始化订阅事件
+    /**
+     * 初始化订阅事件
+     */
     public void initSubscribeListener() {
         zkClient.unsubscribeAll();
         // 获取所有子节点
@@ -68,6 +69,12 @@ public class AgentWebController implements InitializingBean {
         zkClient.subscribeChildChanges(rootPath, (parentPath, currentChilds) -> initSubscribeListener());
     }
 
+    /**
+     * 数据格式转化
+     *
+     * @param json
+     * @return
+     */
     private AgentBean convert(String json) {
         try {
             return JSONUtil.toBean(json, AgentBean.class);
@@ -76,9 +83,18 @@ public class AgentWebController implements InitializingBean {
         }
     }
 
-    // 子节点数据变化
+    /**
+     * 监控子节点变化
+     */
     private class DataChanges implements IZkDataListener {
 
+        /**
+         * 节点数据变换回调
+         *
+         * @param dataPath
+         * @param data
+         * @throws Exception
+         */
         @Override
         public void handleDataChange(String dataPath, Object data) throws Exception {
             log.info("节点-{}，数据发生了改变!!", dataPath);
@@ -87,6 +103,12 @@ public class AgentWebController implements InitializingBean {
             doFilter(bean);
         }
 
+        /**
+         * 服务下线回调
+         *
+         * @param dataPath
+         * @throws Exception
+         */
         @Override
         public void handleDataDeleted(String dataPath) throws Exception {
             if (map.containsKey(dataPath)) {
@@ -97,7 +119,11 @@ public class AgentWebController implements InitializingBean {
         }
     }
 
-    // 警告过滤
+    /**
+     * 警告过滤
+     *
+     * @param bean
+     */
     private void doFilter(AgentBean bean) {
         // cpu 超过80% 报警
         System.out.println();

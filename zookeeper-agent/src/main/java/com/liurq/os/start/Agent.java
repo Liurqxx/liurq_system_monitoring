@@ -30,11 +30,9 @@ public class Agent implements ApplicationRunner {
     private Agent() {
     }
 
-    // javaagent 数据监控
-    public static void premain(String args, Instrumentation instrumentation) {
-        Agent.getInstance().init();
-    }
-
+    /**
+     * 注册节点，开启定时任务更新节点数据
+     */
     public void init() {
         zkClient = new ZkClient(server, 5000, 10000);
 //        zkClient.setZkSerializer(new SerializableSerializer());
@@ -58,18 +56,26 @@ public class Agent implements ApplicationRunner {
         stateThread.start();
     }
 
-    // 数据写到 当前的临时节点中去
+    /**
+     * 数据写到当前的临时节点中去
+     */
     public void updateServerNode() {
         zkClient.writeData(nodePath, getOsInfo());
     }
 
-    // 生成服务节点
+    /**
+     * 生成服务节点
+     */
     public void createServerNode() {
         nodePath = zkClient.createEphemeralSequential(servicePath, getOsInfo());
         log.info("创建节点成功-{}", nodePath);
     }
 
-    // 更新服务节点状态
+    /**
+     * 更新服务节点状态
+     *
+     * @return
+     */
     public String getOsInfo() {
         AgentBean agentBean = new AgentBean();
         agentBean.setCompilationDetail(CompilationDetailUtils.getCompilationDetail());
