@@ -93,14 +93,14 @@ public class Agent implements ApplicationRunner {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }*/
-        MemoryUsage memoryUsag = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
+//        MemoryUsage memoryUsag = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
         AgentBean agentBean = new AgentBean();
-        agentBean.setCompilationDetailBean(CompilationDetailUtils.getCompilationDetail());
-        agentBean.setGarbageCollectorInfoBean(GarbageCollectorInfoUtils.getGarbageCollectorInfo());
-        agentBean.setJvmMemoryInfoBean(JvmMemoryInfoUtils.getJvmMemoryInfo());
-        agentBean.setRuntimeDetailBean(RuntimeDetailUtils.getRuntimeDetail());
-        agentBean.setThreadInfoBean(ThreadInfoUtils.getThreadInfo());
-        agentBean.setSystemDetailBean(SystemDetailUtils.getSystemInfo());
+        agentBean.setCompilationDetail(CompilationDetailUtils.getCompilationDetail());
+        agentBean.setGarbageCollectorInfo(GarbageCollectorInfoUtils.getGarbageCollectorInfo());
+        agentBean.setJvmMemoryInfo(JvmMemoryInfoUtils.getJvmMemoryInfo());
+        agentBean.setRuntimeDetail(RuntimeDetailUtils.getRuntimeDetail());
+        agentBean.setThreadInfo(ThreadInfoUtils.getThreadInfo());
+        agentBean.setSystemDetail(SystemDetailUtils.getSystemInfo());
         return JSONUtil.toJsonStr(agentBean);
     }
 

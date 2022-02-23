@@ -13,16 +13,16 @@ import java.util.List;
 @Data
 public class AgentBean implements Serializable {
 
-    private SystemDetailBean systemDetailBean;
+    private SystemDetailBean systemDetail;
 
-    private CompilationDetailBean compilationDetailBean;
+    private CompilationDetailBean compilationDetail;
 
-    private List<GarbageCollectorInfoBean> garbageCollectorInfoBean;
+    private List<GarbageCollectorInfoBean> garbageCollectorInfo;
 
-    private JvmMemoryInfoBean jvmMemoryInfoBean;
+    private JvmMemoryInfoBean jvmMemoryInfo;
 
-    private RuntimeDetailBean runtimeDetailBean;
+    private RuntimeDetailBean runtimeDetail;
 
-    private ThreadInfoBean threadInfoBean;
+    private ThreadInfoBean threadInfo;
 
 }

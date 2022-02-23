@@ -8,6 +8,7 @@ import org.I0Itec.zkclient.ZkClient;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  * @desc
  * @date 2022-02-22  21:53
  */
-@RestController
+@Controller
 public class AgentWebController implements InitializingBean {
 
     @Value("${zk:101.42.108.28:12181}")
@@ -31,11 +32,10 @@ public class AgentWebController implements InitializingBean {
     private static final String rootPath = "/liurq";
     Map<String, AgentBean> map = new HashMap<>();
 
-    @ResponseBody
     @RequestMapping("/list")
-    public List<AgentBean> list() {
-//        model.addAttribute("items", getCurrentOsBeans());
-        return getCurrentOsBeans();
+    public String list(Model model) {
+        model.addAttribute("items", getCurrentOsBeans());
+        return "index";
     }
 
     private List<AgentBean> getCurrentOsBeans() {
@@ -99,8 +99,8 @@ public class AgentWebController implements InitializingBean {
     // 警告过滤
     private void doFilter(AgentBean bean) {
         // cpu 超过10% 报警
-        if (bean.getSystemDetailBean().getCpu() > 80) {
-            System.err.println("CPU 报警..." + bean.getSystemDetailBean().getCpu());
+        if (bean.getSystemDetail().getCpu() > 80) {
+            System.err.println("CPU 报警..." + bean.getSystemDetail().getCpu());
         }
     }
 }

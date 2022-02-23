@@ -14,57 +14,57 @@ public class SystemDetailBean {
     /**
      * 系统名称
      */
-    private String systemName;
+    private String systemName = "";
 
     /**
      * 系统版本
      */
-    private String systemVersion;
+    private String systemVersion = "";
 
     /**
      * 架构
      */
-    private String systemArch;
+    private String systemArch = "";
 
     /**
      * 可用核数
      */
-    private String availableProcessors;
+    private String availableProcessors = "";
 
     /**
      * 总物理内存
      */
-    private String totalPhysicalMemory;
+    private String totalPhysicalMemory = "";
 
     /**
      * 已用物理内存
      */
-    private String usedPhysicalMemory;
+    private String usedPhysicalMemory = "";
 
     /**
      * 剩余物理内存
      */
-    private String freePhysicalMemory;
+    private String freePhysicalMemory = "";
 
     /**
      * 总交换空间
      */
-    private String totalSwapSpace;
+    private String totalSwapSpace = "";
 
     /**
      * 已用交换空间
      */
-    private String usedSwapSpace;
+    private String usedSwapSpace = "";
 
     /**
      * 剩余交换空间
      */
-    private String freeSwapSpace;
+    private String freeSwapSpace = "";
 
     /**
      * ip地址
      */
-    public String ip;
+    public String ip = "";
     /**
      * cpu
      */
@@ -72,6 +72,6 @@ public class SystemDetailBean {
     /**
      * pid
      */
-    public String pid;
+    public String pid = "";
 
 }
