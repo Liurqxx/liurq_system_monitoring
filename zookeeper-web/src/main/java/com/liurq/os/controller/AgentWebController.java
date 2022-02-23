@@ -99,8 +99,8 @@ public class AgentWebController implements InitializingBean {
     // 警告过滤
     private void doFilter(AgentBean bean) {
         // cpu 超过10% 报警
-        if (bean.getCpu() > 80) {
-            System.err.println("CPU 报警..." + bean.getCpu());
+        if (bean.getSystemDetailBean().getCpu() > 80) {
+            System.err.println("CPU 报警..." + bean.getSystemDetailBean().getCpu());
         }
     }
 }

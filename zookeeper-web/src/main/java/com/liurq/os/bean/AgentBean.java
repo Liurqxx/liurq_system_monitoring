@@ -13,12 +13,6 @@ import java.util.List;
 @Data
 public class AgentBean implements Serializable {
 
-    public String ip;
-    public Double cpu;
-    public long usedMemorySize;
-    public long usableMemorySize;
-    public String pid;
-
     private SystemDetailBean systemDetailBean;
 
     private CompilationDetailBean compilationDetailBean;
