@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Controller
 public class AgentWebController implements InitializingBean {
 
-    @Value("${zk:101.42.108.28:12181}")
+    @Value("${zk:127.0.0.1:12181}")
     private String server;
     private ZkClient zkClient;
     private static final String rootPath = "/liurq";

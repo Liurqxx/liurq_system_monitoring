@@ -15,7 +15,7 @@ import java.lang.instrument.Instrumentation;
 @Component
 public class Agent implements ApplicationRunner {
     private static Agent ourInstance = new Agent();
-    private String server = "101.42.108.28:12181";
+    private String server = "127.0.0.1:12181";
     private ZkClient zkClient;
     private static final String rootPath = "/liurq";
     private static final String servicePath = rootPath + "/service";
